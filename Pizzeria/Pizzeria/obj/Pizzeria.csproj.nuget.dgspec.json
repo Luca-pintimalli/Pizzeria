@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria.csproj": {}
+    "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Pizzeria.csproj": {}
   },
   "projects": {
-    "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria.csproj": {
+    "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Pizzeria.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria.csproj",
+        "projectUniqueName": "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Pizzeria.csproj",
         "projectName": "Pizzeria",
-        "projectPath": "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria.csproj",
+        "projectPath": "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Pizzeria.csproj",
         "packagesPath": "/Users/lucapintimalli/.nuget/packages/",
-        "outputPath": "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/obj/",
+        "outputPath": "/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/lucapintimalli/.nuget/NuGet/NuGet.Config"
@@ -37,6 +37,28 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.7, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
