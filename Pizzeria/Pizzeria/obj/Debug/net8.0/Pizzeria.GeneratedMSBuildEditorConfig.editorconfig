@@ -18,12 +18,36 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Articolo/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXJ0aWNvbG8vRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Articolo/NuovoArticolo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXJ0aWNvbG8vTnVvdm9BcnRpY29sby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Ingrediente/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5ncmVkaWVudGUvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Ingrediente/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5ncmVkaWVudGUvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Ingrediente/Ingredienti.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5ncmVkaWVudGUvSW5ncmVkaWVudGkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Ingrediente/NuovoIngrediente.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5ncmVkaWVudGUvTnVvdm9JbmdyZWRpZW50ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Shared/Error.cshtml]

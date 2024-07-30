@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Pizzeria.Models.Ingrediente>
+
+<h1>Lista degli Ingredienti</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Azione</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ingrediente in Model)
+        {
+            <tr>
+                <td>@ingrediente.Nome</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@ingrediente.Id" class="btn btn-primary">Modifica</a>
+                    <a asp-action="Delete" asp-route-id="@ingrediente.Id" class="btn btn-danger">Elimina</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="NuovoIngrediente" class="btn btn-info">Nuovo Ingrediente</a></a>
