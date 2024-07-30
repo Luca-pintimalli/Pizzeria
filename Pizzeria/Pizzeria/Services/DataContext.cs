@@ -20,5 +20,8 @@ namespace Pizzeria.Services
                       .HasColumnType("decimal(18,2)"); // Specifica il tipo di colonna e la precisione e la scala
             });
         }
+
+
+      
     }
 }

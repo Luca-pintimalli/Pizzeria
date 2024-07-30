@@ -37,9 +37,13 @@ namespace Pizzeria.Controllers
 		[ValidateAntiForgeryToken]
         public IActionResult NuovoIngrediente(Ingrediente ingrediente)
         {
-            _dataContex.Ingredienti.Add(ingrediente);
-            _dataContex.SaveChanges();
-            return RedirectToAction("NuovoArticolo", "Articolo");
+            if (ModelState.IsValid)
+            {
+                _dataContex.Ingredienti.Add(ingrediente);
+                _dataContex.SaveChanges();
+                return RedirectToAction("NuovoArticolo", "Articolo");
+            }
+            return View("Index");
 
         }
 
@@ -48,19 +52,24 @@ namespace Pizzeria.Controllers
 
         public IActionResult Edit(int id)
 		{
+            
 			var ingrediente = _dataContex.Ingredienti.Single(a => a.Id == id);
 			return View(ingrediente);
 		}
 
 
         [HttpPost]
-
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(Ingrediente ingrediente)
 		{
-			var a = _dataContex.Ingredienti.Single(a => a.Id == ingrediente.Id);
-			a.Nome = ingrediente.Nome;
-			_dataContex.SaveChanges();
-            return RedirectToAction("NuovoArticolo", "Articolo");
+            if (ModelState.IsValid)
+            {
+                var a = _dataContex.Ingredienti.Single(a => a.Id == ingrediente.Id);
+                a.Nome = ingrediente.Nome;
+                _dataContex.SaveChanges();
+                return RedirectToAction("NuovoArticolo", "Articolo");
+            }
+            return View(ingrediente);
         }
 
 
@@ -72,6 +81,8 @@ namespace Pizzeria.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Delete(Ingrediente ingrediente)
         {
             var a = _dataContex.Ingredienti.Single(a => a.Id == ingrediente.Id);

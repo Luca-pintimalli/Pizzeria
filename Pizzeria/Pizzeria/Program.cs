@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 using Pizzeria.Services;
 
 namespace Pizzeria
@@ -14,6 +15,13 @@ namespace Pizzeria
             builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(conn));
 
             builder.Services.AddControllersWithViews();
+
+
+            // Configure form options for file uploads
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 104857600; // 100 MB
+            });
 
             var app = builder.Build();
 

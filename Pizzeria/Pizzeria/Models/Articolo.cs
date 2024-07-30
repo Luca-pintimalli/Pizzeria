@@ -13,7 +13,7 @@ namespace Pizzeria.Models
 		[StringLength(50)]
 		public required string Nome { get; set; }
 
-        [Required, StringLength(128)]
+        [Required]
         public required byte[] Foto { get; set; }
 
 		[Range (0, 100)]
