@@ -1,9 +1,15 @@
 ﻿@model IEnumerable<Pizzeria.Models.Articolo>
 
     @{
-        ViewData["Title"] = "Articoli";
-    }
+            ViewData["Title"] = "Articoli";
 
+        }
+
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @(TempData["User"] ?? "Nessun Login")</h1>
+</div>
     <h1>Le nostre Pizze!</h1>
 
     <div class="container">

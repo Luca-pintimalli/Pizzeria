@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Articolo/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXJ0aWNvbG8vRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

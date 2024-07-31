@@ -20,10 +20,9 @@ namespace Pizzeria.Controllers
 
         public IActionResult NuovoArticolo()
         {
-            ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
+            ViewBag.Ingredienti = _dataContext.Ingredienti.OrderBy(i => i.Nome).ToList();
             return View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> NuovoArticolo(int[] selectedIngredienti, FileUpload model)

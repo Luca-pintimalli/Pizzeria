@@ -12,6 +12,7 @@ namespace Pizzeria.Services
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Articolo>(entity =>
@@ -22,6 +23,7 @@ namespace Pizzeria.Services
                 entity.Property(e => e.Foto)
                       .HasColumnType("varbinary(max)");
             });
+
         }
 
 

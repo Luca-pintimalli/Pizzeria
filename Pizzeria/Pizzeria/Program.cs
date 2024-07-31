@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Features;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Services;
 
@@ -15,6 +16,24 @@ namespace Pizzeria
             builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(conn));
 
             builder.Services.AddControllersWithViews();
+
+
+
+
+
+            // Autenticazione e autorizzazione
+            builder.Services
+                .AddAuthentication(opt => {
+                    opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(opt =>
+                    opt.LoginPath = "/Account/Login"
+                )
+                ;
+
+
 
 
             // Configure form options for file uploads
@@ -36,6 +55,9 @@ namespace Pizzeria
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication(); // Aggiungi questa riga
+
 
             app.UseAuthorization();
 

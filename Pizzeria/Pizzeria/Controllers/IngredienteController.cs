@@ -20,10 +20,9 @@ namespace Pizzeria.Controllers
 
         public IActionResult Ingredienti()
         {
-            return View(_dataContex.Ingredienti);
-
+            var ingredientiOrdinati = _dataContex.Ingredienti.OrderBy(i => i.Nome).ToList();
+            return View(ingredientiOrdinati);
         }
-
 
 
 

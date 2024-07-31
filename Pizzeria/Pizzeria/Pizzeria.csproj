@@ -19,15 +19,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Services\" />
     <None Remove="Views\Articolo\" />
     <None Remove="Views\Ingrediente\" />
+    <None Remove="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Views\Articolo\" />
     <Folder Include="Views\Ingrediente\" />
+    <Folder Include="Views\Account\" />
   </ItemGroup>
 </Project>

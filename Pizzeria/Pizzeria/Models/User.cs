@@ -5,8 +5,8 @@ using System.Data;
 
 namespace Pizzeria.Models
 {
-	public class User
-	{
+    public class User
+    {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -34,4 +34,3 @@ namespace Pizzeria.Models
 
     }
 }
-

@@ -1,44 +1,45 @@
 ﻿<Properties StartupConfiguration="{38F873BD-01E6-4D5A-86BB-57F866DAEB27}|https">
-  <MonoDevelop.Ide.ItemProperties.Pizzeria PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Pizzeria PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pizzeria/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pizzeria/Services/DataContext.cs">
     <Files>
-      <File FileName="Pizzeria/Models/Ingrediente.cs" Line="16" Column="1" />
-      <File FileName="Pizzeria/Models/Articolo.cs" Line="16" Column="38" />
-      <File FileName="Pizzeria/Services/DataContext.cs" Line="17" Column="1" />
-      <File FileName="Pizzeria/appsettings.json" Line="10" Column="66" />
-      <File FileName="Pizzeria/Program.cs" Line="37" Column="11" />
-      <File FileName="Pizzeria/Models/ErrorViewModel.cs" Line="1" Column="1" />
-      <File FileName="Pizzeria/Models/Ordini.cs" Line="7" Column="21" />
-      <File FileName="Pizzeria/Models/User.cs" Line="28" Column="1" />
       <File FileName="Pizzeria/Models/Role.cs" Line="19" Column="1" />
-      <File FileName="Pizzeria/Models/OrderItem.cs" Line="13" Column="41" />
+      <File FileName="Pizzeria/Models/User.cs" Line="32" Column="1" />
+      <File FileName="Pizzeria/Controllers/AccountController.cs" Line="35" Column="37" />
+      <File FileName="Pizzeria/Controllers/ArticoloController.cs" Line="14" Column="1" />
+      <File FileName="Pizzeria/Views/Account/Login.cshtml" Line="27" Column="1" />
+      <File FileName="Pizzeria/Views/Home/Index.cshtml" Line="11" Column="72" />
+      <File FileName="Pizzeria/Program.cs" Line="60" Column="1" />
+      <File FileName="Pizzeria/Models/LoginModel.cs" Line="1" Column="1" />
+      <File FileName="Pizzeria/Services/DataContext.cs" Line="40" Column="10" />
+      <File FileName="Pizzeria/Models/RoleUser.cs" Line="16" Column="39" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Pizzeria">
             <Node name="Pizzeria">
-              <Node name="Dependencies" expanded="True">
-                <Node name="FrameworkReferences" expanded="True" />
-                <Node name="PackageDependencies" expanded="True" />
-              </Node>
-              <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="Services" expanded="True" />
-              <Node name="Views" expanded="True" />
-              <Node name="wwwroot" expanded="True" />
-              <Node name="Program.cs" selected="True" />
+              <Node name="Services" expanded="True">
+                <Node name="DataContext.cs" selected="True" />
+              </Node>
+              <Node name="Views">
+                <Node name="Account" expanded="True" />
+                <Node name="Articolo" expanded="True" />
+                <Node name="Ingrediente" expanded="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
