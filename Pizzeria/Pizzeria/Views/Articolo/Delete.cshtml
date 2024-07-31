@@ -1,0 +1,42 @@
+﻿@model Pizzeria.Models.Articolo
+
+@{
+    ViewData["Title"] = "Elimina Articolo";
+    Layout = "_Layout";
+}
+
+<h1>Elimina Articolo</h1>
+
+<h3>Sei sicuro di voler eliminare questo articolo?</h3>
+<div>
+    <h4>@Model.Nome</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Prezzo</dt>
+        <dd>@Model.PrezzoVendita.ToString("C")</dd>
+        <dt>Tempo di Consegna</dt>
+        <dd>@Model.TempoDiConsegna minuti</dd>
+        <dt>Ingredienti</dt>
+        <dd>
+            @if (Model.Ingredienti != null && Model.Ingredienti.Any())
+            {
+                <ul>
+                    @foreach (var ingrediente in Model.Ingredienti)
+                    {
+                        <li>@ingrediente.Nome</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>Nessun ingrediente</span>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Elimina" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Annulla</a>
+    </form>
+</div>

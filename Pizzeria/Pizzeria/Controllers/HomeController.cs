@@ -21,7 +21,7 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         var articoli = _dataContext.Articoli
-                                   .Include(a => a.Ingredienti) // Include gli ingredienti correlati
+                                   .Include(a => a.Ingredienti) // Include gli ingredienti 
                                    .ToList();
         return View(articoli);
     }

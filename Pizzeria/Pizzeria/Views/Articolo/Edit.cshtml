@@ -1,14 +1,14 @@
-﻿@model Pizzeria.Models.Articolo
+﻿@model Pizzeria.Models.FileUpload
 
 @{
     Layout = "_Layout";
 }
 
 <h1>Modifica Articolo</h1>
-@Html.AntiForgeryToken()
 <form asp-action="Edit" enctype="multipart/form-data" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="Id" />
- 
+
     <div class="form-group">
         <label asp-for="Nome" class="control-label"></label>
         <input asp-for="Nome" class="form-control" />
@@ -16,9 +16,9 @@
     </div>
 
     <div class="form-group">
-        <label for="fotoFile" class="control-label">Foto</label>
-        <input type="file" id="fotoFile" name="fotoFile" class="form-control" />
-        <span asp-validation-for="Foto" class="text-danger"></span>
+        <label for="UploadFile" class="control-label">Foto</label>
+        <input type="file" id="UploadFile" name="UploadFile" class="form-control" />
+        <span asp-validation-for="UploadFile" class="text-danger"></span>
     </div>
 
     <div class="form-group">
@@ -35,11 +35,19 @@
 
     <div class="form-group">
         <label class="control-label">Ingredienti</label>
-        <select asp-for="Ingredienti" class="form-control" multiple="multiple" asp-items="@(new SelectList(ViewBag.Ingredienti, "Id", "Nome"))"></select>
+        <div>
+            @foreach (var ingrediente in ViewBag.Ingredienti as List<Pizzeria.Models.Ingrediente>)
+            {
+                <div>
+                    <input type="checkbox" name="selectedIngredienti" value="@ingrediente.Id"
+                           @(Model.Id != 0 && ViewBag.IngredientiSelezionati != null && ViewBag.IngredientiSelezionati.Contains(ingrediente.Id) ? "checked" : "") />
+                    <label>@ingrediente.Nome</label>
+                </div>
+            }
+        </div>
     </div>
 
     <div class="form-group">
         <input type="submit" value="Salva" class="btn btn-primary" />
     </div>
 </form>
-

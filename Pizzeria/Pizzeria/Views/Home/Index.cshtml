@@ -4,7 +4,7 @@
         ViewData["Title"] = "Articoli";
     }
 
-    <h1>Articoli</h1>
+    <h1>Le nostre Pizze!</h1>
 
     <div class="container">
         <div class="row">
@@ -21,28 +21,29 @@
                             <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
                         }
 
-                        <div class="card-body">
-                            <h5 class="card-title">@articolo.Nome</h5>
-                            <p class="card-text">Prezzo: @articolo.PrezzoVendita.ToString("C")</p>
-                            <p class="card-text">Tempo di Consegna: @articolo.TempoDiConsegna minuti</p>
-                            <p class="card-text">
-                                <strong>Ingredienti:</strong>
-                                @if (articolo.Ingredienti != null && articolo.Ingredienti.Any())
-                                {
-                                    <ul>
-                                        @foreach (var ingrediente in articolo.Ingredienti)
-                                        {
-                                            <li>@ingrediente.Nome</li>
-                                        }
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <span>Nessun ingrediente</span>
-                                }
-                            </p>
-                            <a href="#" class="btn btn-primary">Dettagli</a>
-                        </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@articolo.Nome</h5>
+                        <p class="card-text">Prezzo: @articolo.PrezzoVendita.ToString("C")</p>
+                        <p class="card-text">Tempo di Consegna: @articolo.TempoDiConsegna minuti</p>
+                        <p class="card-text">
+                            <strong>Ingredienti:</strong>
+                            @if (articolo.Ingredienti != null && articolo.Ingredienti.Any())
+                            {
+                                <ul>
+                                    @foreach (var ingrediente in articolo.Ingredienti)
+                                    {
+                                        <li>@ingrediente.Nome</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span>Nessun ingrediente</span>
+                            }
+                        </p>
+                        <a asp-controller="Articolo" asp-action="Edit" asp-route-id="@articolo.Id" class="btn btn-primary">Modifica</a>
+                        <a asp-controller="Articolo" asp-action="Delete" asp-route-id="@articolo.Id" class="btn btn-danger">Elimina</a>
+                    </div>
                     </div>
                 </div>
             }

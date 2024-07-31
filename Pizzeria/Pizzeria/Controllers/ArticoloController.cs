@@ -85,39 +85,86 @@ namespace Pizzeria.Controllers
             }
 
             ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
-            return View(articolo);
+            var model = new FileUpload
+            {
+                Id = articolo.Id,
+                Nome = articolo.Nome,
+                PrezzoVendita = articolo.PrezzoVendita,
+                TempoDiConsegna = articolo.TempoDiConsegna
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Articolo articolo, int[] selectedIngredienti, IFormFile fotoFile)
+        public async Task<IActionResult> Edit(int id, FileUpload model, int[] selectedIngredienti)
         {
             if (ModelState.IsValid)
             {
                 var articoloToUpdate = _dataContext.Articoli
                     .Include(a => a.Ingredienti)
-                    .Single(a => a.Id == articolo.Id);
+                    .Single(a => a.Id == id);
 
-                articoloToUpdate.Nome = articolo.Nome;
-                articoloToUpdate.PrezzoVendita = articolo.PrezzoVendita;
-                articoloToUpdate.TempoDiConsegna = articolo.TempoDiConsegna;
+                if (articoloToUpdate == null)
+                {
+                    return NotFound();
+                }
+
+                articoloToUpdate.Nome = model.Nome;
+                articoloToUpdate.PrezzoVendita = model.PrezzoVendita;
+                articoloToUpdate.TempoDiConsegna = model.TempoDiConsegna;
                 articoloToUpdate.Ingredienti = _dataContext.Ingredienti.Where(i => selectedIngredienti.Contains(i.Id)).ToList();
 
-                if (fotoFile != null && fotoFile.Length > 0)
+                if (model.UploadFile != null && model.UploadFile.Length > 0)
                 {
                     using (var memoryStream = new MemoryStream())
                     {
-                        await fotoFile.CopyToAsync(memoryStream);
+                        await model.UploadFile.CopyToAsync(memoryStream);
                         articoloToUpdate.Foto = memoryStream.ToArray();
                     }
                 }
 
                 await _dataContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
+            return View(model);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var articolo = _dataContext.Articoli
+                .Include(a => a.Ingredienti)
+                .SingleOrDefault(a => a.Id == id);
+
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+
             return View(articolo);
         }
-    }   }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var articolo = _dataContext.Articoli
+                .Include(a => a.Ingredienti)
+                .SingleOrDefault(a => a.Id == id);
+
+            if (articolo == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.Articoli.Remove(articolo);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction("NuovoArticolo", "Articolo");
+        }
+   
+}
+}
     

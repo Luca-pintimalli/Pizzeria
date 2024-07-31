@@ -11,7 +11,6 @@ namespace Pizzeria.Services
         {
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
 
-            // Prendi la connessione dal appsettings.json
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
