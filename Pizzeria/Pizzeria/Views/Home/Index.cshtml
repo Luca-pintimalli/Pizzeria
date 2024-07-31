@@ -1,9 +1,50 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Pizzeria.Models.Articolo>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    @{
+        ViewData["Title"] = "Articoli";
+    }
 
+    <h1>Articoli</h1>
+
+    <div class="container">
+        <div class="row">
+            @foreach (var articolo in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        @if (articolo.Foto != null && articolo.Foto.Length > 0)
+                        {
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(articolo.Foto)" class="card-img-top" alt="Foto di @articolo.Nome">
+                        }
+                        else
+                        {
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@articolo.Nome</h5>
+                            <p class="card-text">Prezzo: @articolo.PrezzoVendita.ToString("C")</p>
+                            <p class="card-text">Tempo di Consegna: @articolo.TempoDiConsegna minuti</p>
+                            <p class="card-text">
+                                <strong>Ingredienti:</strong>
+                                @if (articolo.Ingredienti != null && articolo.Ingredienti.Any())
+                                {
+                                    <ul>
+                                        @foreach (var ingrediente in articolo.Ingredienti)
+                                        {
+                                            <li>@ingrediente.Nome</li>
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span>Nessun ingrediente</span>
+                                }
+                            </p>
+                            <a href="#" class="btn btn-primary">Dettagli</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>

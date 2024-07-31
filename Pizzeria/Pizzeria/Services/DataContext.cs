@@ -17,11 +17,15 @@ namespace Pizzeria.Services
             modelBuilder.Entity<Articolo>(entity =>
             {
                 entity.Property(e => e.PrezzoVendita)
-                      .HasColumnType("decimal(18,2)"); // Specifica il tipo di colonna e la precisione e la scala
+                      .HasColumnType("decimal(18,2)");
+
+                entity.Property(e => e.Foto)
+                      .HasColumnType("varbinary(max)");
             });
         }
 
 
-      
+
+
     }
 }

@@ -17,52 +17,63 @@ namespace Pizzeria.Controllers
             _dataContext = dataContext;
         }
 
+
         public IActionResult NuovoArticolo()
         {
             ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
             return View();
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> NuovoArticolo(Articolo articolo, int[] selectedIngredienti, IFormFile fotoFile)
+        public async Task<IActionResult> NuovoArticolo(int[] selectedIngredienti, FileUpload model)
         {
-            // Verifica se il modello è valido
-            if (!ModelState.IsValid)
+            if (model.UploadFile == null || model.UploadFile.Length == 0)
             {
-                ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
-                return View(articolo);
+                ModelState.AddModelError("UploadFile", "La foto è obbligatoria.");
             }
 
-            // Verifica se il file è stato caricato
-            if (fotoFile != null && fotoFile.Length > 0)
+            if (ModelState.IsValid)
             {
-                using (var memoryStream = new MemoryStream())
+                var articolo = new Articolo
                 {
-                    await fotoFile.CopyToAsync(memoryStream);
-                    articolo.Foto = memoryStream.ToArray();
+                    Nome = model.Nome,
+                    PrezzoVendita = model.PrezzoVendita,
+                    TempoDiConsegna = model.TempoDiConsegna,
+                    Ingredienti = _dataContext.Ingredienti.Where(i => selectedIngredienti.Contains(i.Id)).ToList()
+                };
+
+                // Gestione del file caricato
+                if (model.UploadFile != null && model.UploadFile.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.UploadFile.CopyToAsync(memoryStream);
+                        articolo.Foto = memoryStream.ToArray();
+                    }
                 }
+                else
+                {
+                    // Aggiungi un valore predefinito o gestisci l'errore se necessario
+                    // articolo.Foto = GetDefaultImage(); // Metodo per ottenere un'immagine predefinita se necessario
+                }
+
+                _dataContext.Articoli.Add(articolo);
+                await _dataContext.SaveChangesAsync();
+
+                return RedirectToAction("NuovoArticolo");
             }
-            else
-            {
-                // Se il file è obbligatorio e non è stato caricato, mostra un errore
-                ModelState.AddModelError("Foto", "La foto è obbligatoria.");
-                ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
-                return View(articolo);
-            }
 
-            // Assegna gli ingredienti selezionati
-            articolo.Ingredienti = _dataContext.Ingredienti.Where(i => selectedIngredienti.Contains(i.Id)).ToList();
-
-            // Aggiungi l'articolo al contesto e salva
-            _dataContext.Articoli.Add(articolo);
-            await _dataContext.SaveChangesAsync();
-
-            return RedirectToAction("Index"); // Supponendo che tu abbia una vista Index per visualizzare gli articoli
+            // Recarica la lista degli ingredienti in caso di errore
+            ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
+            return View(model);
         }
-    
 
 
-    public IActionResult Edit(int id)
+
+
+
+        public IActionResult Edit(int id)
         {
             var articolo = _dataContext.Articoli
                 .Include(a => a.Ingredienti)
@@ -108,5 +119,5 @@ namespace Pizzeria.Controllers
             ViewBag.Ingredienti = _dataContext.Ingredienti.ToList();
             return View(articolo);
         }
-    }
-}
+    }   }
+    

@@ -1,22 +1,31 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Pizzeria.Models;
+using Pizzeria.Services;
 
 namespace Pizzeria.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly DataContext _dataContext;
 
-    public HomeController(ILogger<HomeController> logger)
+
+    public HomeController(ILogger<HomeController> logger, DataContext dataContext)
     {
         _logger = logger;
+        _dataContext = dataContext;
     }
 
     public IActionResult Index()
     {
-        return View();
+        var articoli = _dataContext.Articoli
+                                   .Include(a => a.Ingredienti) // Include gli ingredienti correlati
+                                   .ToList();
+        return View(articoli);
     }
+
 
     public IActionResult Privacy()
     {

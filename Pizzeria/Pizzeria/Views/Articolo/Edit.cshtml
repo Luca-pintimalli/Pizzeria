@@ -5,10 +5,10 @@
 }
 
 <h1>Modifica Articolo</h1>
-
+@Html.AntiForgeryToken()
 <form asp-action="Edit" enctype="multipart/form-data" method="post">
     <input type="hidden" asp-for="Id" />
-
+ 
     <div class="form-group">
         <label asp-for="Nome" class="control-label"></label>
         <input asp-for="Nome" class="form-control" />
