@@ -6,5 +6,11 @@ namespace Pizzeria.ViewModels
     {
         public Ordine Ordine { get; set; }
         public decimal Totale { get; set; }
+
+
+
+        public string Indirizzo { get; set; }
+        public string? Note { get; set; }
+
     }
 }

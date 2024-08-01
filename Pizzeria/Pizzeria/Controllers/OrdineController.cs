@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Models;
 using Pizzeria.Services;
 using Pizzeria.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class OrdineController : Controller
 {
@@ -15,35 +15,7 @@ public class OrdineController : Controller
         _context = context;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddProdotto(int articoloId, int quantita)
-    {
-        var ordineId = 1; // Assumi che l'ID dell'ordine sia predefinito a 1 per semplicità
-        var ordine = await _context.Ordini.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == ordineId);
-        var articolo = await _context.Articoli.FindAsync(articoloId);
-
-        if (ordine != null && articolo != null)
-        {
-            if (ordine.Items == null)
-            {
-                ordine.Items = new List<OrderItem>();
-            }
-
-            var orderItem = new OrderItem
-            {
-                Ordini = ordine,
-                Articoli = articolo,
-                Quantita = quantita
-            };
-
-            ordine.Items.Add(orderItem);
-            await _context.SaveChangesAsync();
-        }
-
-        return RedirectToAction("Index", "Home"); // Reindirizza alla vista Index del controller Home
-    }
-
-    [HttpGet("TotaleOrdine")]
+    [HttpGet]
     public async Task<IActionResult> TotaleOrdine(int ordineId)
     {
         var ordine = await _context.Ordini
@@ -61,12 +33,31 @@ public class OrdineController : Controller
         var viewModel = new TotaleOrdineViewModel
         {
             Ordine = ordine,
-            Totale = totale
+            Totale = totale,
+            Indirizzo = ordine.Indirizzo,
+            Note = ordine.Note
         };
 
-        return View(viewModel); // Passa il ViewModel alla vista
+        return View(viewModel);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AggiornaOrdine(int ordineId, string indirizzo, string note)
+    {
+        var ordine = await _context.Ordini.FindAsync(ordineId);
+        if (ordine == null)
+        {
+            return NotFound("Ordine non trovato");
+        }
+
+        ordine.Indirizzo = indirizzo;
+        ordine.Note = note;
+
+        _context.Ordini.Update(ordine);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
+    }
 
     [HttpPost]
     public async Task<IActionResult> AggiornaQuantita(int ordineId, int articoloId, int quantita)
@@ -81,44 +72,39 @@ public class OrdineController : Controller
             return NotFound("Ordine non trovato");
         }
 
-        if (ordine.Items == null)
-        {
-            return BadRequest("L'ordine non contiene articoli.");
-        }
-
         var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
-        if (ordineItem == null)
+
+        if (ordineItem != null)
         {
-            return NotFound("Articolo non trovato nell'ordine.");
+            ordineItem.Quantita = quantita;
+            _context.OrderItems.Update(ordineItem);
+            await _context.SaveChangesAsync();
         }
 
-        ordineItem.Quantita = quantita;
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("TotaleOrdine", new { ordineId = ordineId });
+        return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
     }
-
-
-
 
     [HttpPost]
     public async Task<IActionResult> RimuoviArticolo(int ordineId, int articoloId)
     {
         var ordine = await _context.Ordini
             .Include(o => o.Items)
-            .ThenInclude(i => i.Articoli)
+            .ThenInclude(oi => oi.Articoli)
             .FirstOrDefaultAsync(o => o.Id == ordineId);
 
-        if (ordine != null && ordine.Items != null)
+        if (ordine == null)
         {
-            var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
-            if (ordineItem != null)
-            {
-                ordine.Items.Remove(ordineItem);
-                await _context.SaveChangesAsync();
-            }
+            return NotFound("Ordine non trovato");
         }
 
-        return RedirectToAction("TotaleOrdine", new { ordineId = ordineId });
+        var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
+
+        if (ordineItem != null)
+        {
+            _context.OrderItems.Remove(ordineItem);
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
     }
 }
