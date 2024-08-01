@@ -20,17 +20,20 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.7" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Services\" />
     <None Remove="Views\Articolo\" />
     <None Remove="Views\Ingrediente\" />
     <None Remove="Views\Account\" />
+    <None Remove="Views\Ordine\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
     <Folder Include="Views\Articolo\" />
     <Folder Include="Views\Ingrediente\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\Ordine\" />
   </ItemGroup>
 </Project>

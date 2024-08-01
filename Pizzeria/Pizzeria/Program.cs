@@ -18,6 +18,7 @@ namespace Pizzeria
             builder.Services.AddControllersWithViews();
 
 
+            builder.Services.AddScoped<IOrdineService, OrdineService>();
 
 
 

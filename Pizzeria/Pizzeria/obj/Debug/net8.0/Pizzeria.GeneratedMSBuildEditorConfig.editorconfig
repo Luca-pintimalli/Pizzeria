@@ -58,6 +58,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5ncmVkaWVudGUvTnVvdm9JbmdyZWRpZW50ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Ordine/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkaW5lL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Ordine/TotaleOrdine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvT3JkaW5lL1RvdGFsZU9yZGluZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

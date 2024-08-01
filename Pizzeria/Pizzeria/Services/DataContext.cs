@@ -12,7 +12,8 @@ namespace Pizzeria.Services
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UsersRole> UsersRoles { get; set; }
-
+        public DbSet<Ordine> Ordini { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,9 +25,10 @@ namespace Pizzeria.Services
                 entity.Property(e => e.Foto)
                       .HasColumnType("varbinary(max)");
             });
+
             modelBuilder.Entity<UsersRole>()
-                .ToTable("RoleUser")  // Specifica il nome della tabella esistente
-                .HasKey(ur => new { ur.UsersId, ur.RolesId });  // Definisci la chiave composta
+                .ToTable("RoleUser")
+                .HasKey(ur => new { ur.UsersId, ur.RolesId });
 
             modelBuilder.Entity<UsersRole>()
                 .HasOne(ur => ur.User)
@@ -37,6 +39,17 @@ namespace Pizzeria.Services
                 .HasOne(ur => ur.Role)
                 .WithMany(r => r.UsersRoles)
                 .HasForeignKey(ur => ur.RolesId);
+
+            modelBuilder.Entity<Ordine>().ToTable("Ordine");
+            modelBuilder.Entity<OrderItem>().ToTable("OrderItem")
+                .HasOne(oi => oi.Articoli)
+                .WithMany()
+                .HasForeignKey("ArticoliId");
+
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Ordini)
+                .WithMany(o => o.Items)
+                .HasForeignKey("OrdiniId");
         }
     }
 }

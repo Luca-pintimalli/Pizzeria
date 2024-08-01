@@ -1,0 +1,32 @@
+﻿@model Pizzeria.Models.Ordine
+
+@{
+    ViewData["Title"] = "Totale Ordine";
+    var totale = ViewData["Totale"] as decimal? ?? 0m; // Assumendo che il totale sia di tipo decimal
+}
+
+<h2>Totale Ordine</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome Articolo</th>
+            <th>Quantità</th>
+            <th>Prezzo</th>
+            <th>Totale</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Articoli.Nome</td>
+                <td>@item.Quantita</td>
+                <td>@item.Articoli.PrezzoVendita.ToString("C")</td>
+                <td>@(item.Articoli.PrezzoVendita * item.Quantita).ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Totale Ordine: @totale.ToString("C")</h3>

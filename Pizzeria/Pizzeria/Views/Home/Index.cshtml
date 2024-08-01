@@ -33,37 +33,45 @@
                         <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
                     }
 
-                    <div class="card-body">
-                        <h5 class="card-title">@articolo.Nome</h5>
-                        <p class="card-text">Prezzo: @articolo.PrezzoVendita.ToString("C")</p>
-                        <p class="card-text">Tempo di Consegna: @articolo.TempoDiConsegna minuti</p>
-                        <p class="card-text">
-                            <strong>Ingredienti:</strong>
-                            @if (articolo.Ingredienti != null && articolo.Ingredienti.Any())
-                            {
-                                <ul>
-                                    @foreach (var ingrediente in articolo.Ingredienti)
-                                    {
-                                        <li>@ingrediente.Nome</li>
-                                    }
-                                </ul>
-                            }
-                            else
-                            {
-                                <span>Nessun ingrediente</span>
-                            }
-                        </p>
-
-                        @if (userRoles.Contains("Admin"))
+                <div class="card-body">
+                    <h5 class="card-title">@articolo.Nome</h5>
+                    <p class="card-text">Prezzo: @articolo.PrezzoVendita.ToString("C")</p>
+                    <p class="card-text">Tempo di Consegna: @articolo.TempoDiConsegna minuti</p>
+                    <p class="card-text">
+                        <strong>Ingredienti:</strong>
+                        @if (articolo.Ingredienti != null && articolo.Ingredienti.Any())
                         {
-                            <a asp-controller="Articolo" asp-action="Edit" asp-route-id="@articolo.Id" class="btn btn-primary">Modifica</a>
-                            <a asp-controller="Articolo" asp-action="Delete" asp-route-id="@articolo.Id" class="btn btn-danger">Elimina</a>
+                            <ul>
+                                @foreach (var ingrediente in articolo.Ingredienti)
+                                {
+                                    <li>@ingrediente.Nome</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>Nessun ingrediente</span>
+                        }
+                    </p>
+
+                    @if (userRoles.Contains("Admin"))
+                    {
+                        <a asp-controller="Articolo" asp-action="Edit" asp-route-id="@articolo.Id" class="btn btn-primary">Modifica</a>
+                        <a asp-controller="Articolo" asp-action="Delete" asp-route-id="@articolo.Id" class="btn btn-danger">Elimina</a>
                         }
                         else if (userRoles.Contains("Customer"))
                         {
-                            <a asp-controller="Carrello" asp-action="Aggiungi" asp-route-id="@articolo.Id" class="btn btn-success">Aggiungi al Carrello</a>
-                        }
-                    </div>
+                <form asp-controller="Ordine" asp-action="AddProdotto" method="post">
+                    <input type="hidden" name="articoloId" value="@articolo.Id" />
+                    <input type="hidden" name="quantita" value="1" />
+                    <button type="submit" class="btn btn-success">Aggiungi al Carrello</button>
+                </form>
+
+                    }
+
+
+                    }
+                </div>
                 </div>
             </div>
         }

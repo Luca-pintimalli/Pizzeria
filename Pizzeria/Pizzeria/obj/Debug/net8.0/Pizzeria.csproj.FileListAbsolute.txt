@@ -136,3 +136,5 @@
 /Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/obj/Debug/net8.0/Pizzeria.pdb
 /Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/obj/Debug/net8.0/Pizzeria.genruntimeconfig.cache
 /Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/obj/Debug/net8.0/ref/Pizzeria.dll
+/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/bin/Debug/net8.0/Castle.Core.dll
+/Users/lucapintimalli/Documents/GitHub/Esame-Venerd-BE/Pizzeria/Pizzeria/Pizzeria/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Proxies.dll
