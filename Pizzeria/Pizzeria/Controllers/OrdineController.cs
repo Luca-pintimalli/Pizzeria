@@ -13,6 +13,8 @@ public class OrdineController : Controller
     public OrdineController(DataContext context)
     {
         _context = context;
+
+
     }
 
     [HttpGet]
@@ -29,34 +31,37 @@ public class OrdineController : Controller
         }
 
         var totale = ordine.Items.Sum(item => item.Articoli.PrezzoVendita * item.Quantita);
-
         var viewModel = new TotaleOrdineViewModel
         {
             Ordine = ordine,
-            Totale = totale,
-            Indirizzo = ordine.Indirizzo,
-            Note = ordine.Note
+            Totale = totale
         };
 
         return View(viewModel);
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> AggiornaOrdine(int ordineId, string indirizzo, string note)
+    public async Task<IActionResult> AddProdotto(int articoloId, int quantita)
     {
-        var ordine = await _context.Ordini.FindAsync(ordineId);
-        if (ordine == null)
+        var ordineId = 1; // Assumi che l'ID dell'ordine sia predefinito a 1 per semplicità
+        var ordine = await _context.Ordini.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == ordineId);
+        var articolo = await _context.Articoli.FindAsync(articoloId);
+
+        if (ordine != null && articolo != null)
         {
-            return NotFound("Ordine non trovato");
+            var orderItem = new OrderItem
+            {
+                Ordini = ordine,
+                Articoli = articolo,
+                Quantita = quantita
+            };
+
+            ordine.Items.Add(orderItem);
+            await _context.SaveChangesAsync();
         }
 
-        ordine.Indirizzo = indirizzo;
-        ordine.Note = note;
-
-        _context.Ordini.Update(ordine);
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
+        return RedirectToAction("Index", "Home"); // Reindirizza alla vista Index del controller Home
     }
 
     [HttpPost]
@@ -84,6 +89,7 @@ public class OrdineController : Controller
         return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
     }
 
+
     [HttpPost]
     public async Task<IActionResult> RimuoviArticolo(int ordineId, int articoloId)
     {
@@ -92,19 +98,45 @@ public class OrdineController : Controller
             .ThenInclude(oi => oi.Articoli)
             .FirstOrDefaultAsync(o => o.Id == ordineId);
 
-        if (ordine == null)
+        if (ordine != null)
         {
-            return NotFound("Ordine non trovato");
+            var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
+
+            if (ordineItem != null)
+            {
+                ordine.Items.Remove(ordineItem);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
+        return RedirectToAction("TotaleOrdine", new { ordineId });
+    }
 
-        if (ordineItem != null)
+    [HttpPost]
+    public async Task<IActionResult> CreaOrdine(string indirizzo, string note)
+    {
+        var userId = 2; // Assumi un utente con ID 1 per semplicità
+
+        var nuovoOrdine = new Ordine
         {
-            _context.OrderItems.Remove(ordineItem);
-            await _context.SaveChangesAsync();
-        }
+            DataOrdine = DateTime.Now,
+            User = await _context.Users.FindAsync(userId),
+            OrdineEvaso = false,
+            Indirizzo = indirizzo,
+            Note = note,
+            Items = new List<OrderItem>() // Inizializza la lista degli articoli
+        };
 
-        return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
+        _context.Ordini.Add(nuovoOrdine);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("TotaleOrdine", new { ordineId = nuovoOrdine.Id });
+    }
+
+    private int GetCurrentOrderId()
+    {
+        // Questa funzione recupera l'ID dell'ordine corrente.
+        // Sostituiscilo con la logica per ottenere l'ID dell'ordine attivo per l'utente.
+        return 1; // Modifica questo per restituire l'ID dell'ordine corrente
     }
 }

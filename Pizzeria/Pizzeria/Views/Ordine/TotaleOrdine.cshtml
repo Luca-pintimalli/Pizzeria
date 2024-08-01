@@ -18,47 +18,47 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Ordine.Items)
+        @if (Model.Ordine != null && Model.Ordine.Items != null)
         {
-            <tr>
-                <td>@item.Articoli.Nome</td>
-                <td>@item.Quantita</td>
-               
-                <td>
-                    <form asp-action="AggiornaQuantita" method="post">
-                        <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
-                        <input type="hidden" name="articoloId" value="@item.Articoli.Id" />
-                        <input type="number" name="quantita" value="@item.Quantita" min="1" />
-                        <button type="submit" class="btn btn-primary">Aggiorna</button>
-                    </form>
-                </td>
-                <td>@item.Articoli.PrezzoVendita</td>
-                <td>@(item.Articoli.PrezzoVendita * item.Quantita)</td>
-                <td>
-                    <form asp-action="RimuoviArticolo" method="post">
-    <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
-    <input type="hidden" name="articoloId" value="@item.Articoli.Id" />
-    <button type="submit" class="btn btn-danger">Rimuovi</button>
-</form>
-                </td>
-            </tr>
+            @foreach (var item in Model.Ordine.Items)
+            {
+                <tr>
+                    <td>@item.Articoli?.Nome</td>
+                    <td>@item.Quantita</td>
+
+                    <td>
+                        <form asp-action="AggiornaQuantita" method="post">
+                            <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
+                            <input type="hidden" name="articoloId" value="@item.Articoli?.Id" />
+                            <input type="number" name="quantita" value="@item.Quantita" min="1" />
+                            <button type="submit" class="btn btn-primary">Aggiorna</button>
+                        </form>
+                    </td>
+                    <td>@item.Articoli?.PrezzoVendita</td>
+                    <td>@(item.Articoli?.PrezzoVendita * item.Quantita)</td>
+                    <td>
+                        <form asp-action="RimuoviArticolo" method="post">
+                            <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
+                            <input type="hidden" name="articoloId" value="@item.Articoli?.Id" />
+                            <button type="submit" class="btn btn-danger">Rimuovi</button>
+                        </form>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
 
 <h3>Totale Ordine: @Model.Totale</h3>
 
-
-
-<form asp-action="AggiornaOrdine" method="post">
+<form asp-action="CreaOrdine" method="post">
     <div class="form-group">
         <label for="Indirizzo">Indirizzo:</label>
-        <input type="text" class="form-control" id="Indirizzo" name="Indirizzo" value="@Model.Indirizzo" required />
+        <input type="text" class="form-control" id="Indirizzo" name="Indirizzo" required />
     </div>
     <div class="form-group">
         <label for="Note">Note:</label>
-        <textarea class="form-control" id="Note" name="Note">@Model.Note</textarea>
+        <textarea class="form-control" id="Note" name="Note"></textarea>
     </div>
-    <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
-    <button type="submit" class="btn btn-primary">Aggiorna Ordine</button>
+    <button type="submit" class="btn btn-primary">Crea Ordine</button>
 </form>
