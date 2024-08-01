@@ -1,31 +1,37 @@
 ﻿@model IEnumerable<Pizzeria.Models.Articolo>
 
-    @{
-            ViewData["Title"] = "Articoli";
-
-        }
-
-
+@{
+    ViewData["Title"] = "Articoli";
+    var userRoles = ViewBag.UserRoles as string[] ?? Array.Empty<string>();
+}
 
 <div class="text-center">
-    <h1 class="display-4">Welcome @(TempData["User"] ?? "Nessun Login")</h1>
+    <h1 class="display-4">
+        Welcome @(User.Identity.IsAuthenticated ? User.Identity.Name : "Nessun Login")
+    </h1>
 </div>
-    <h1>Le nostre Pizze!</h1>
 
-    <div class="container">
-        <div class="row">
-            @foreach (var articolo in Model)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        @if (articolo.Foto != null && articolo.Foto.Length > 0)
-                        {
-                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(articolo.Foto)" class="card-img-top" alt="Foto di @articolo.Nome">
-                        }
-                        else
-                        {
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
-                        }
+@if (userRoles.Contains("Admin"))
+{
+    <h3>Benvenuto Admin!</h3>
+}
+
+<h1>Le nostre Pizze!</h1>
+
+<div class="container">
+    <div class="row">
+        @foreach (var articolo in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    @if (articolo.Foto != null && articolo.Foto.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(articolo.Foto)" class="card-img-top" alt="Foto di @articolo.Nome">
+                    }
+                    else
+                    {
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
+                    }
 
                     <div class="card-body">
                         <h5 class="card-title">@articolo.Nome</h5>
@@ -47,11 +53,19 @@
                                 <span>Nessun ingrediente</span>
                             }
                         </p>
-                        <a asp-controller="Articolo" asp-action="Edit" asp-route-id="@articolo.Id" class="btn btn-primary">Modifica</a>
-                        <a asp-controller="Articolo" asp-action="Delete" asp-route-id="@articolo.Id" class="btn btn-danger">Elimina</a>
-                    </div>
+
+                        @if (userRoles.Contains("Admin"))
+                        {
+                            <a asp-controller="Articolo" asp-action="Edit" asp-route-id="@articolo.Id" class="btn btn-primary">Modifica</a>
+                            <a asp-controller="Articolo" asp-action="Delete" asp-route-id="@articolo.Id" class="btn btn-danger">Elimina</a>
+                        }
+                        else if (userRoles.Contains("Customer"))
+                        {
+                            <a asp-controller="Carrello" asp-action="Aggiungi" asp-route-id="@articolo.Id" class="btn btn-success">Aggiungi al Carrello</a>
+                        }
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+</div>

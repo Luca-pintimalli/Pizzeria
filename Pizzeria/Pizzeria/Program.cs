@@ -23,15 +23,17 @@ namespace Pizzeria
 
             // Autenticazione e autorizzazione
             builder.Services
-                .AddAuthentication(opt => {
+                .AddAuthentication(opt =>
+                {
                     opt.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opt.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     opt.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
                 .AddCookie(opt =>
                     opt.LoginPath = "/Account/Login"
-                )
-                ;
+                ) ;
+
+                
 
 
 

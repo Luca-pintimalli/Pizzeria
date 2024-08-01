@@ -25,10 +25,35 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Articolo" asp-action="NuovoArticolo">Aggiungi Pizza!</a>
-                        </li>
-                    </ul>
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                            {
+                            @* Verifica se l'utente ha il ruolo di Admin *@
+                            @if (User.IsInRole("Admin"))
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Articolo" asp-action="NuovoArticolo">Aggiungi Pizza!</a>
+                                </li>
+                                }
+                            }
+
+
+                            @if (User.Identity?.IsAuthenticated ?? false)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item ms-auto">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                </li>
+                            }
+                        </ul>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <span class="navbar-text">Bentornato, @User.Identity.Name!</span>
+                    }
                 </div>
             </div>
         </nav>

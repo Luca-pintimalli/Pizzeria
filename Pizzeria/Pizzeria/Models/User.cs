@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
+using System.Collections.Generic;
 
 namespace Pizzeria.Models
 {
@@ -10,27 +10,18 @@ namespace Pizzeria.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-
         [Required]
         [StringLength(20)]
-        public required string Nome { get; set; }
-
+        public string Nome { get; set; }
 
         [Required]
         [EmailAddress]
-        public required string Email { get; set; }
-
+        public string Email { get; set; }
 
         [Required]
         [StringLength(20)]
-        public required string Password { get; set; }
+        public string Password { get; set; }
 
-
-        public List<Role> Roles { get; set; } = [];
-
-
-        public List<Ordine> Ordini { get; set; } = [];
-
-
+        public virtual ICollection<UsersRole> UsersRoles { get; set; } = new List<UsersRole>();
     }
 }
