@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Pizzeria.Models;
 using Pizzeria.Services;
 using Pizzeria.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class OrdineController : Controller
 {
@@ -13,8 +11,6 @@ public class OrdineController : Controller
     public OrdineController(DataContext context)
     {
         _context = context;
-
-
     }
 
     [HttpGet]
@@ -39,7 +35,6 @@ public class OrdineController : Controller
 
         return View(viewModel);
     }
-
 
     [HttpPost]
     public async Task<IActionResult> AddProdotto(int articoloId, int quantita)
@@ -77,10 +72,15 @@ public class OrdineController : Controller
             return NotFound("Ordine non trovato");
         }
 
-        var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
+        var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli?.Id == articoloId);
 
         if (ordineItem != null)
         {
+            if (quantita <= 0)
+            {
+                return BadRequest("La quantità deve essere maggiore di zero");
+            }
+
             ordineItem.Quantita = quantita;
             _context.OrderItems.Update(ordineItem);
             await _context.SaveChangesAsync();
@@ -89,33 +89,47 @@ public class OrdineController : Controller
         return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
     }
 
-
     [HttpPost]
-    public async Task<IActionResult> RimuoviArticolo(int ordineId, int articoloId)
+    public async Task<IActionResult> RimuoviArticolo(int ordineId, int articoloId, int quantita)
     {
         var ordine = await _context.Ordini
             .Include(o => o.Items)
             .ThenInclude(oi => oi.Articoli)
             .FirstOrDefaultAsync(o => o.Id == ordineId);
 
-        if (ordine != null)
+        if (ordine == null)
         {
-            var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
+            return NotFound("Ordine non trovato");
+        }
 
-            if (ordineItem != null)
+        var ordineItem = ordine.Items
+            .FirstOrDefault(item => item.Articoli?.Id == articoloId);
+
+        if (ordineItem != null)
+        {
+            if (ordineItem.Quantita <= quantita)
             {
+                // Se la quantità dell'articolo nel carrello è minore o uguale a quella da rimuovere, rimuoviamo l'articolo
                 ordine.Items.Remove(ordineItem);
-                await _context.SaveChangesAsync();
             }
+            else
+            {
+                // Altrimenti, riduciamo la quantità
+                ordineItem.Quantita -= quantita;
+                _context.OrderItems.Update(ordineItem);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         return RedirectToAction("TotaleOrdine", new { ordineId });
     }
 
+
     [HttpPost]
     public async Task<IActionResult> CreaOrdine(string indirizzo, string note)
     {
-        var userId = 2; // Assumi un utente con ID 1 per semplicità
+        var userId = 2; // Assumi un utente con ID 2 per semplicità
 
         var nuovoOrdine = new Ordine
         {
@@ -130,13 +144,11 @@ public class OrdineController : Controller
         _context.Ordini.Add(nuovoOrdine);
         await _context.SaveChangesAsync();
 
+        // Rimuovi gli articoli dal carrello corrente se necessario
+        // Puoi implementare la logica per mantenere o rimuovere il carrello precedente
+
         return RedirectToAction("TotaleOrdine", new { ordineId = nuovoOrdine.Id });
     }
 
-    private int GetCurrentOrderId()
-    {
-        // Questa funzione recupera l'ID dell'ordine corrente.
-        // Sostituiscilo con la logica per ottenere l'ID dell'ordine attivo per l'utente.
-        return 1; // Modifica questo per restituire l'ID dell'ordine corrente
-    }
 }
+
