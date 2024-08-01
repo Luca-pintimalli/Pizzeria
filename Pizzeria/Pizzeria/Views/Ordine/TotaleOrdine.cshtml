@@ -1,4 +1,4 @@
-﻿@model Pizzeria.Models.Ordine
+﻿@model Pizzeria.ViewModels.TotaleOrdineViewModel
 
 @{
     ViewData["Title"] = "Totale Ordine";
@@ -14,19 +14,36 @@
             <th>Quantità</th>
             <th>Prezzo</th>
             <th>Totale</th>
+            <th>Azione</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Items)
+        @foreach (var item in Model.Ordine.Items)
         {
             <tr>
                 <td>@item.Articoli.Nome</td>
                 <td>@item.Quantita</td>
-                <td>@item.Articoli.PrezzoVendita.ToString("C")</td>
-                <td>@(item.Articoli.PrezzoVendita * item.Quantita).ToString("C")</td>
+               
+                <td>
+                    <form asp-action="AggiornaQuantita" method="post">
+                        <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
+                        <input type="hidden" name="articoloId" value="@item.Articoli.Id" />
+                        <input type="number" name="quantita" value="@item.Quantita" min="1" />
+                        <button type="submit" class="btn btn-primary">Aggiorna</button>
+                    </form>
+                </td>
+                <td>@item.Articoli.PrezzoVendita</td>
+                <td>@(item.Articoli.PrezzoVendita * item.Quantita)</td>
+                <td>
+                    <form asp-action="RimuoviArticolo" method="post">
+    <input type="hidden" name="ordineId" value="@Model.Ordine.Id" />
+    <input type="hidden" name="articoloId" value="@item.Articoli.Id" />
+    <button type="submit" class="btn btn-danger">Rimuovi</button>
+</form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-<h3>Totale Ordine: @totale.ToString("C")</h3>
+<h3>Totale Ordine: @Model.Totale</h3>

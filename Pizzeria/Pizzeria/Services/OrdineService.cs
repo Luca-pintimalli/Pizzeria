@@ -49,5 +49,20 @@ namespace Pizzeria.Services
                 .ThenInclude(oi => oi.Articoli)
                 .ToListAsync();
         }
-    }
-}
+
+
+
+        public async Task AggiornaQuantita(int ordineId, int articoloId, int quantita)
+        {
+            var ordine = await _context.Ordini.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == ordineId);
+            if (ordine != null)
+            {
+                var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli.Id == articoloId);
+                if (ordineItem != null)
+                {
+                    ordineItem.Quantita = quantita;
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
+    }    }

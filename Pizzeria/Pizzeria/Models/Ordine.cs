@@ -25,7 +25,7 @@ namespace Pizzeria.Models
         public string? Note { get; set; }
 
 
-        public List<OrderItem> Items { get; set; } = new();
+        public ICollection<OrderItem> Items { get; set; }
 
     }
 }
