@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model IEnumerable<Pizzeria.Models.Ordine>
+
+<h2>
+    Lista Ordini
+</h2>
+<p><a href="/Ordine/OrdiniEvasi" class="btn btn-primary">Visualizza Ordini Evasi</a></p>
+
+
+@Html.AntiForgeryToken()
+
+@if (Model != null && Model.Any())
+{
+    <div class="row">
+        @foreach (var ordine in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 @(ordine.OrdineEvaso ? "bg-success" : "bg-light")" id="card-@ordine.Id">
+                    <div class="card-body">
+                        <h5 class="card-title">Ordine @ordine.Id</h5>
+                        <p class="card-text"><strong>Data Ordine:</strong> @ordine.DataOrdine</p>
+                        <p class="card-text"><strong>Utente:</strong> @ordine.User.Nome</p>
+                        <p class="card-text"><strong>Indirizzo:</strong> @ordine.Indirizzo</p>
+                        <p class="card-text"><strong>Note:</strong> @ordine.Note</p>
+                        <p class="card-text"><strong>Ordine Evaso:</strong> @(ordine.OrdineEvaso ? "Sì" : "No")</p>
+                        <p class="card-text">
+                            <strong>Articoli:</strong>
+                            <ul>
+                                @if (ordine.Items != null && ordine.Items.Any())
+                                {
+                                    @foreach (var item in ordine.Items)
+                                    {
+                                        <li>
+                                            Articolo: @item.Articoli.Nome<br />
+                                            Quantità: @item.Quantita
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>Nessun articolo</li>
+                                }
+                            </ul>
+                        </p>
+                        @if (!ordine.OrdineEvaso)
+                        {
+                            <button class="btn btn-primary"
+                                    onclick="updateOrdineEvaso(@ordine.Id)">
+                                Segna come evaso
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>Non ci sono ordini disponibili.</p>
+}
+
+@section Scripts {
+    <script>function updateOrdineEvaso(ordineId) {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            console.log(`Invio richiesta per aggiornare ordine ${ordineId} a evaso`);
+
+            fetch('/Ordine/UpdateOrdineEvaso', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({ ordineId: ordineId, ordineEvaso: true })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore di rete');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/Ordine/OrdiniEvasi'; // Reindirizza alla pagina OrdiniEvasi
+                    } else {
+                        alert('Errore durante l\'aggiornamento dell\'ordine');
+                    }
+                })
+                .catch(error => {
+                    console.error('Errore:', error);
+                    alert('Errore durante l\'aggiornamento dell\'ordine');
+                });
+        }</script>
+}

@@ -30,6 +30,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Articolo" asp-action="NuovoArticolo">Aggiungi Pizza!</a>
                                 </li>
+
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Ordine" asp-action="ListaOrdini">Lista ordini</a>
+                                </li>
                             }
                             @* Verifica se l'utente ha il ruolo di Customer *@
                             @if (User.IsInRole("Customer"))

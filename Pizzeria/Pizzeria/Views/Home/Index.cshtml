@@ -21,41 +21,41 @@
 <div class="container">
     <div class="row">
         @foreach (var articolo in Model)
-        {
+            {
             <div class="col-md-4 mb-4">
                 <div class="card">
                     @if (articolo.Foto != null && articolo.Foto.Length > 0)
-                    {
+                        {
                         <img src="data:image/jpeg;base64,@Convert.ToBase64String(articolo.Foto)" class="card-img-top" alt="Foto di @articolo.Nome">
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         <img src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder">
-                    }
+                        }
 
                 <div class="card-body">
                     <h5 class="card-title">@articolo.Nome</h5>
-                    <p class="card-text">Prezzo: @articolo.PrezzoVendita.ToString("C")</p>
+                    <p class="card-text">Prezzo: @articolo.PrezzoVendita €</p>
                     <p class="card-text">Tempo di Consegna: @articolo.TempoDiConsegna minuti</p>
                     <p class="card-text">
                         <strong>Ingredienti:</strong>
                         @if (articolo.Ingredienti != null && articolo.Ingredienti.Any())
-                        {
+                            {
                             <ul>
                                 @foreach (var ingrediente in articolo.Ingredienti)
-                                {
+                                    {
                                     <li>@ingrediente.Nome</li>
-                                }
+                                    }
                             </ul>
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <span>Nessun ingrediente</span>
-                        }
+                            }
                     </p>
 
                     @if (userRoles.Contains("Admin"))
-                    {
+                        {
                         <a asp-controller="Articolo" asp-action="Edit" asp-route-id="@articolo.Id" class="btn btn-primary">Modifica</a>
                         <a asp-controller="Articolo" asp-action="Delete" asp-route-id="@articolo.Id" class="btn btn-danger">Elimina</a>
                         }
@@ -67,13 +67,13 @@
                     <button type="submit" class="btn btn-success">Aggiungi al Carrello</button>
                 </form>
 
-                    }
+                        }
 
 
-                    }
+                    
                 </div>
                 </div>
             </div>
-        }
+            }
     </div>
 </div>

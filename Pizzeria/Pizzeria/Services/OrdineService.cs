@@ -42,13 +42,7 @@ namespace Pizzeria.Services
                 .FirstOrDefaultAsync(o => o.Id == ordineId);
         }
 
-        public async Task<IEnumerable<Ordine>> GetAll()
-        {
-            return await _context.Ordini
-                .Include(o => o.Items)
-                .ThenInclude(oi => oi.Articoli)
-                .ToListAsync();
-        }
+     
 
 
 
@@ -65,4 +59,33 @@ namespace Pizzeria.Services
                 }
             }
         }
-    }    }
+
+
+        public async Task<IEnumerable<Ordine>> GetAll()
+        {
+            return await _context.Ordini
+                                 .Include(o => o.User)
+                                 .Include(o => o.Items)
+                                     .ThenInclude(i => i.Articoli)
+                                 .ToListAsync();
+        }
+
+
+
+        public async Task<bool> UpdateOrdineEvaso(int ordineId, bool ordineEvaso)
+        {
+            var ordine = await _context.Ordini.FindAsync(ordineId);
+            if (ordine == null)
+            {
+                return false;
+            }
+
+            ordine.OrdineEvaso = ordineEvaso;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
+
+    }
+}

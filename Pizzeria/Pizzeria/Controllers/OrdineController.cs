@@ -7,10 +7,13 @@ using Pizzeria.ViewModels;
 public class OrdineController : Controller
 {
     private readonly DataContext _context;
+    private readonly IOrdineService _ordineService;
 
-    public OrdineController(DataContext context)
+    public OrdineController(DataContext context, IOrdineService ordineService)
     {
         _context = context;
+        _ordineService = ordineService;
+
     }
 
     [HttpGet]
@@ -150,5 +153,47 @@ public class OrdineController : Controller
         return RedirectToAction("TotaleOrdine", new { ordineId = nuovoOrdine.Id });
     }
 
-}
 
+
+
+
+    public async Task<IActionResult> ListaOrdini()
+    {
+        var ordini = await _ordineService.GetAll();
+        if (ordini == null || !ordini.Any())
+        {
+            return View("ListaOrdini", new List<Ordine>());
+        }
+        return View("ListaOrdini", ordini);
+    }
+
+
+    [HttpPost]
+    [Route("Ordine/UpdateOrdineEvaso")]
+    public async Task<IActionResult> UpdateOrdineEvaso([FromBody] UpdateOrdineEvasoRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(new { success = false, message = "Dati non validi" });
+        }
+
+        bool result = await _ordineService.UpdateOrdineEvaso(request.OrdineId, request.OrdineEvaso);
+
+        if (result)
+        {
+            return Ok(new { success = true });
+        }
+        else
+        {
+            return NotFound(new { success = false, message = "Ordine non trovato" });
+        }
+    }
+
+    // Metodo per visualizzare gli ordini evasi
+    public IActionResult OrdiniEvasi()
+    {
+        var ordiniEvasi = _ordineService.GetAll().Result.Where(o => o.OrdineEvaso);
+        return View(ordiniEvasi);
+    }
+
+}
