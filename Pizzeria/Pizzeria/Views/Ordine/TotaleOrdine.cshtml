@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Totale Ordine";
-    var totale = ViewData["Totale"] as decimal? ?? 0m; // Assumendo che il totale sia di tipo decimal
+    var totale = Model.Totale;
 }
 
 <h2 class="mb-4">Totale Ordine</h2>
@@ -12,7 +12,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>Nome Articolo</th>
-                <th>Prezzo</th>
+                <th>Prezzo Unitario</th>
                 <th>Quantità</th>
                 <th>Totale</th>
                 <th>Elimina</th>

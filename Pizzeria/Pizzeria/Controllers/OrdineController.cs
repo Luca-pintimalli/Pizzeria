@@ -11,11 +11,12 @@ public class OrdineController : Controller
 
     public OrdineController(DataContext context, IOrdineService ordineService)
     {
+        // Inizializzo il contesto dati e il servizio degli ordini tramite dependency injection
         _context = context;
         _ordineService = ordineService;
-
     }
 
+    // Metodo per calcolare il totale di un ordine specifico
     [HttpGet]
     public async Task<IActionResult> TotaleOrdine(int ordineId)
     {
@@ -39,10 +40,11 @@ public class OrdineController : Controller
         return View(viewModel);
     }
 
+    // Metodo per aggiungere un prodotto a un ordine
     [HttpPost]
     public async Task<IActionResult> AddProdotto(int articoloId, int quantita)
     {
-        var ordineId = 1; // Assumi che l'ID dell'ordine sia predefinito a 1 per semplicità
+        var ordineId = 1; // Assumo che l'ID dell'ordine sia predefinito a 1 per semplicità
         var ordine = await _context.Ordini.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == ordineId);
         var articolo = await _context.Articoli.FindAsync(articoloId);
 
@@ -62,6 +64,7 @@ public class OrdineController : Controller
         return RedirectToAction("Index", "Home"); // Reindirizza alla vista Index del controller Home
     }
 
+    // Metodo per aggiornare la quantità di un prodotto in un ordine
     [HttpPost]
     public async Task<IActionResult> AggiornaQuantita(int ordineId, int articoloId, int quantita)
     {
@@ -92,6 +95,7 @@ public class OrdineController : Controller
         return RedirectToAction("TotaleOrdine", new { ordineId = ordine.Id });
     }
 
+    // Metodo per rimuovere un articolo da un ordine
     [HttpPost]
     public async Task<IActionResult> RimuoviArticolo(int ordineId, int articoloId, int quantita)
     {
@@ -105,8 +109,7 @@ public class OrdineController : Controller
             return NotFound("Ordine non trovato");
         }
 
-        var ordineItem = ordine.Items
-            .FirstOrDefault(item => item.Articoli?.Id == articoloId);
+        var ordineItem = ordine.Items.FirstOrDefault(item => item.Articoli?.Id == articoloId);
 
         if (ordineItem != null)
         {
@@ -128,11 +131,11 @@ public class OrdineController : Controller
         return RedirectToAction("TotaleOrdine", new { ordineId });
     }
 
-
+    // Metodo per creare un nuovo ordine
     [HttpPost]
     public async Task<IActionResult> CreaOrdine(string indirizzo, string note)
     {
-        var userId = 2; // Assumi un utente con ID 2 per semplicità
+        var userId = 2; // Assumo un utente con ID 2 per semplicità
 
         var nuovoOrdine = new Ordine
         {
@@ -153,21 +156,24 @@ public class OrdineController : Controller
         return RedirectToAction("TotaleOrdine", new { ordineId = nuovoOrdine.Id });
     }
 
-
-
-
-
+    // Metodo per visualizzare la lista degli ordini
     public async Task<IActionResult> ListaOrdini()
     {
-        var ordini = await _ordineService.GetAll();
+        var ordini = await _context.Ordini
+            .Include(o => o.User)
+            .Include(o => o.Items)
+            .ThenInclude(i => i.Articoli) // Assicurati di includere gli articoli
+            .ToListAsync();
+
         if (ordini == null || !ordini.Any())
         {
             return View("ListaOrdini", new List<Ordine>());
         }
+
         return View("ListaOrdini", ordini);
     }
 
-
+    // Metodo per aggiornare lo stato di evasione di un ordine
     [HttpPost]
     [Route("Ordine/UpdateOrdineEvaso")]
     public async Task<IActionResult> UpdateOrdineEvaso([FromBody] UpdateOrdineEvasoRequest request)
@@ -195,5 +201,4 @@ public class OrdineController : Controller
         var ordiniEvasi = _ordineService.GetAll().Result.Where(o => o.OrdineEvaso);
         return View(ordiniEvasi);
     }
-
 }

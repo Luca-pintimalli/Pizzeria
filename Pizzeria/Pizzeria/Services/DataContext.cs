@@ -3,10 +3,13 @@ using Pizzeria.Models;
 
 namespace Pizzeria.Services
 {
+    // La classe DataContext estende DbContext e rappresenta il contesto del database
     public class DataContext : DbContext
     {
+        // Il costruttore accetta le opzioni per configurare il contesto
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
+        // Definisco le tabelle del database tramite DbSet
         public DbSet<Articolo> Articoli { get; set; }
         public DbSet<Ingrediente> Ingredienti { get; set; }
         public DbSet<User> Users { get; set; }
@@ -15,21 +18,25 @@ namespace Pizzeria.Services
         public DbSet<Ordine> Ordini { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 
+        // Configuro il modello di creazione del database tramite OnModelCreating
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configurazione specifica per l'entità Articolo
             modelBuilder.Entity<Articolo>(entity =>
             {
                 entity.Property(e => e.PrezzoVendita)
-                      .HasColumnType("decimal(18,2)");
+                      .HasColumnType("decimal(18,2)"); // Definisco il tipo di colonna per PrezzoVendita
 
                 entity.Property(e => e.Foto)
-                      .HasColumnType("varbinary(max)");
+                      .HasColumnType("varbinary(max)"); // Definisco il tipo di colonna per Foto
             });
 
+            // Configuro la tabella UsersRole con una chiave composta
             modelBuilder.Entity<UsersRole>()
-                .ToTable("RoleUser")
-                .HasKey(ur => new { ur.UsersId, ur.RolesId });
+                .ToTable("RoleUser") // Definisco il nome della tabella
+                .HasKey(ur => new { ur.UsersId, ur.RolesId }); // Definisco la chiave primaria composta
 
+            // Definisco le relazioni tra UsersRole, User e Role
             modelBuilder.Entity<UsersRole>()
                 .HasOne(ur => ur.User)
                 .WithMany(u => u.UsersRoles)
@@ -40,7 +47,10 @@ namespace Pizzeria.Services
                 .WithMany(r => r.UsersRoles)
                 .HasForeignKey(ur => ur.RolesId);
 
+            // Configuro la tabella Ordine
             modelBuilder.Entity<Ordine>().ToTable("Ordine");
+
+            // Configuro la tabella OrderItem e le sue relazioni
             modelBuilder.Entity<OrderItem>().ToTable("OrderItem")
                 .HasOne(oi => oi.Articoli)
                 .WithMany()

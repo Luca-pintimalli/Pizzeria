@@ -1,14 +1,7 @@
-﻿@{
-    Layout = "_Layout";
-}
+﻿@model IEnumerable<Pizzeria.Models.Ordine>
 
-@model IEnumerable<Pizzeria.Models.Ordine>
-
-<h2>
-    Lista Ordini
-</h2>
-<p><a href="/Ordine/OrdiniEvasi" class="btn btn-primary">Visualizza Ordini Evasi</a></p>
-
+<h2>Lista Ordini</h2>
+<a asp-controller="Ordine" asp-action="OrdiniEvasi" class="btn btn-primary">Visualizza Ordini Evasi</a>
 
 @Html.AntiForgeryToken()
 
@@ -22,9 +15,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Ordine @ordine.Id</h5>
                         <p class="card-text"><strong>Data Ordine:</strong> @ordine.DataOrdine</p>
-                        <p class="card-text"><strong>Utente:</strong> @ordine.User.Nome</p>
+                        <p class="card-text"><strong>Utente:</strong> @(ordine.User?.Nome ?? "N/A")</p>
                         <p class="card-text"><strong>Indirizzo:</strong> @ordine.Indirizzo</p>
-                        <p class="card-text"><strong>Note:</strong> @ordine.Note</p>
+                        <p class="card-text"><strong>Note:</strong> @(ordine.Note ?? "N/A")</p>
                         <p class="card-text"><strong>Ordine Evaso:</strong> @(ordine.OrdineEvaso ? "Sì" : "No")</p>
                         <p class="card-text">
                             <strong>Articoli:</strong>
@@ -34,8 +27,10 @@
                                     @foreach (var item in ordine.Items)
                                     {
                                         <li>
-                                            Articolo: @item.Articoli.Nome<br />
-                                            Quantità: @item.Quantita
+                                            Nome Articolo: @(item.Articoli?.Nome ?? "N/A")<br />
+                                            Quantità: @item.Quantita<br />
+                                            Prezzo per unità: @(item.Articoli?.PrezzoVendita.ToString("C") ?? "N/A")<br />
+                                            Totale per articolo: @((item.Articoli?.PrezzoVendita ?? 0) * item.Quantita).ToString("C")
                                         </li>
                                     }
                                 }
@@ -47,8 +42,7 @@
                         </p>
                         @if (!ordine.OrdineEvaso)
                         {
-                            <button class="btn btn-primary"
-                                    onclick="updateOrdineEvaso(@ordine.Id)">
+                            <button class="btn btn-primary" onclick="updateOrdineEvaso(@ordine.Id)">
                                 Segna come evaso
                             </button>
                         }

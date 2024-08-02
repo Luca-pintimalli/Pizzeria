@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
+//PAGINA CREATA PER MIGRAZIONI/UPDATE  DATABASE 
 namespace Pizzeria.Services
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DataContext>

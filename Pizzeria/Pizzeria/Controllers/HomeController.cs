@@ -14,20 +14,23 @@ namespace Pizzeria.Controllers
 
         public HomeController(ILogger<HomeController> logger, DataContext dataContext)
         {
+            // Inizializzo il logger e il contesto dati tramite dependency injection
             _logger = logger;
             _dataContext = dataContext;
         }
 
         public IActionResult Index()
         {
+            // Recupero tutti gli articoli dal database, inclusi gli ingredienti associati
             var articoli = _dataContext.Articoli
-                                       .Include(a => a.Ingredienti) // Include gli ingredienti 
+                                       .Include(a => a.Ingredienti)
                                        .ToList();
 
-            // Ottieni il ruolo dell'utente attualmente autenticato
+            // Ottengo l'email dell'utente attualmente autenticato
             var userEmail = User.Identity?.Name;
             if (userEmail != null)
             {
+                // Cerco l'utente nel database tramite l'email
                 var user = _dataContext.Users
                     .Include(u => u.UsersRoles)
                     .ThenInclude(ur => ur.Role)
@@ -35,10 +38,12 @@ namespace Pizzeria.Controllers
 
                 if (user != null)
                 {
+                    // Estraggo i nomi dei ruoli dell'utente e li passo alla vista tramite ViewBag
                     var roles = user.UsersRoles.Select(ur => ur.Role.Nome).ToArray();
-                    ViewBag.UserRoles = roles; // Passa i ruoli alla vista tramite ViewBag
+                    ViewBag.UserRoles = roles;
                 }
             }
+            // Passo la lista degli articoli alla vista
             return View(articoli);
         }
 
